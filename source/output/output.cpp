@@ -161,14 +161,14 @@ void OutputStructure::writeHDF5File() {
   for (int i = 0; i < M; ++i)
     for (int j = 0; j < N; ++j)
       if (j == 0) {
-        interpolatedUVelocityWindow (j, i) = (uVelocityBoundaryWindow (0, i) +
+        interpolatedUVelocityWindow (i, j) = (uVelocityBoundaryWindow (i, 0) +
                                               uVelocityWindow         (j, i)) / 2;
       } else if (j == (N - 1)) {
-        interpolatedUVelocityWindow (j, i) = (uVelocityWindow         (j - 1, i) +
-                                              uVelocityBoundaryWindow (1, i)) / 2;
+        interpolatedUVelocityWindow (i, j) = (uVelocityWindow         (j - 1, i) +
+                                              uVelocityBoundaryWindow (i, 1)) / 2;
       } else {
-        interpolatedUVelocityWindow (j, i) = (uVelocityWindow (j - 1, i) +
-                                              uVelocityWindow (j,     i)) / 2;
+        interpolatedUVelocityWindow (i, j) = (uVelocityWindow (i, j - 1) +
+                                              uVelocityWindow (    i, j)) / 2;
       }
   dataset = H5Dcreate (outputFile, "UVelocity", datatype, dataspace,
                        H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
@@ -196,13 +196,13 @@ void OutputStructure::writeHDF5File() {
   for (int i = 0; i < M; ++i)
     for (int j = 0; j < N; ++j)
       if (i == 0) {
-        interpolatedVVelocityWindow (j, i) = (vVelocityBoundaryWindow (j, 0) +
+        interpolatedVVelocityWindow (i, j) = (vVelocityBoundaryWindow (0, j) +
                                               vVelocityWindow         (j, i)) / 2;
       } else if (i == (M - 1)) {
-        interpolatedVVelocityWindow (j, i) = (vVelocityWindow         (j, (i - 1)) +
-                                              vVelocityBoundaryWindow (j, 1)) / 2;
+        interpolatedVVelocityWindow (i, j) = (vVelocityWindow         (j, (i - 1)) +
+                                              vVelocityBoundaryWindow (1, j)) / 2;
       } else {
-        interpolatedVVelocityWindow (j, i) = (vVelocityWindow         (j, (i - 1)) +
+        interpolatedVVelocityWindow (i, j) = (vVelocityWindow         (j, (i - 1)) +
                                               vVelocityWindow         (j, i)) / 2;
       }
   dataset = H5Dcreate (outputFile, "VVelocity", datatype, dataspace,
@@ -231,22 +231,22 @@ void OutputStructure::writeHDF5File() {
       double uDivergence, vDivergence;
 
       if (i == 0) {
-        vDivergence = (vVelocityBoundaryWindow (j, 0) - vVelocityWindow (j, i)) / dx;
+        vDivergence = (vVelocityBoundaryWindow (0, j) - vVelocityWindow (i, j)) / dx;
       } else if (i == (M - 1)) {
-        vDivergence = (vVelocityWindow (j, i - 1) - vVelocityBoundaryWindow (j, 1)) / dx;
+        vDivergence = (vVelocityWindow (i - 1, j) - vVelocityBoundaryWindow (1, j)) / dx;
       } else {
-        vDivergence = (vVelocityWindow (j, i - 1) - vVelocityWindow (j, i)) / dx;
+        vDivergence = (vVelocityWindow (i - 1, j) - vVelocityWindow (i, j)) / dx;
       }
 
       if (j == 0) {
-        uDivergence = (uVelocityBoundaryWindow (0, i) - uVelocityWindow (j, i)) / dx;
+        uDivergence = (uVelocityBoundaryWindow (i, 0) - uVelocityWindow (i, j)) / dx;
       } else if (j == (N - 1)) {
-        uDivergence = (uVelocityWindow (j - 1, i) - uVelocityBoundaryWindow (1, i)) / dx;
+        uDivergence = (uVelocityWindow (i, j - 1) - uVelocityBoundaryWindow (i, 1)) / dx;
       } else {
-        uDivergence = (uVelocityWindow (j - 1, i) - uVelocityWindow (j, i)) / dx;
+        uDivergence = (uVelocityWindow (i, j - 1) - uVelocityWindow (i, j)) / dx;
       }
 
-      velocityDivergenceWindow (j, i) = uDivergence + vDivergence;
+      velocityDivergenceWindow (i, j) = uDivergence + vDivergence;
     }
   }
   
@@ -373,14 +373,14 @@ void OutputStructure::writeHDF5File (const int timestep) {
   for (int i = 0; i < M; ++i)
     for (int j = 0; j < N; ++j)
       if (j == 0) {
-        interpolatedUVelocityWindow (j, i) = (uVelocityBoundaryWindow (0, i) +
+        interpolatedUVelocityWindow (i, j) = (uVelocityBoundaryWindow (i, 0) +
                                               uVelocityWindow         (j, i)) / 2;
       } else if (j == (N - 1)) {
-        interpolatedUVelocityWindow (j, i) = (uVelocityWindow         (j - 1, i) +
-                                              uVelocityBoundaryWindow (1, i)) / 2;
+        interpolatedUVelocityWindow (i, j) = (uVelocityWindow         (j - 1, i) +
+                                              uVelocityBoundaryWindow (i, 1)) / 2;
       } else {
-        interpolatedUVelocityWindow (j, i) = (uVelocityWindow (j - 1, i) +
-                                              uVelocityWindow (j,     i)) / 2;
+        interpolatedUVelocityWindow (i, j) = (uVelocityWindow (i, j - 1) +
+                                              uVelocityWindow (    i, j)) / 2;
       }
 
   dataset = H5Dcreate (outputFile, "UVelocity", datatype, dataspace,
@@ -409,14 +409,14 @@ void OutputStructure::writeHDF5File (const int timestep) {
   for (int i = 0; i < M; ++i)
     for (int j = 0; j < N; ++j)
       if (i == 0) {
-        interpolatedVVelocityWindow (j, i) = (vVelocityBoundaryWindow (j, 0) +
+        interpolatedVVelocityWindow (i, j) = (vVelocityBoundaryWindow (0, j) +
                                               vVelocityWindow         (j, i)) / 2;
       } else if (i == (M - 1)) {
-        interpolatedVVelocityWindow (j, i) = (vVelocityWindow         (j, i - 1) +
-                                              vVelocityBoundaryWindow (j, 1)) / 2;
+        interpolatedVVelocityWindow (i, j) = (vVelocityWindow         (j, i - 1) +
+                                              vVelocityBoundaryWindow (1, j)) / 2;
       } else {
-        interpolatedVVelocityWindow (j, i) = (vVelocityWindow (j, i - 1) +
-                                              vVelocityWindow (j, i)) / 2;
+        interpolatedVVelocityWindow (i, j) = (vVelocityWindow (i - 1, j) +
+                                              vVelocityWindow (i, j)) / 2;
       }
 
   dataset = H5Dcreate (outputFile, "VVelocity", datatype, dataspace, 
@@ -444,22 +444,22 @@ void OutputStructure::writeHDF5File (const int timestep) {
       double uDivergence, vDivergence;
 
       if (i == 0) {
-        vDivergence = (vVelocityBoundaryWindow (j, 0) - vVelocityWindow (j, i)) / dx;
+        vDivergence = (vVelocityBoundaryWindow (0, j) - vVelocityWindow (i, j)) / dx;
       } else if (i == (M - 1)) {
-        vDivergence = (vVelocityWindow (j, i - 1) - vVelocityBoundaryWindow (j, 1)) / dx;
+        vDivergence = (vVelocityWindow (i - 1, j) - vVelocityBoundaryWindow (1, j)) / dx;
       } else {
-        vDivergence = (vVelocityWindow (j, i - 1) - vVelocityWindow (j, i)) / dx;
+        vDivergence = (vVelocityWindow (i - 1, j) - vVelocityWindow (i, j)) / dx;
       }
 
       if (j == 0) {
-        uDivergence = (uVelocityBoundaryWindow (0, i) - uVelocityWindow (j, i)) / dx;
+        uDivergence = (uVelocityBoundaryWindow (i, 0) - uVelocityWindow (i, j)) / dx;
       } else if (j == (N - 1)) {
-        uDivergence = (uVelocityWindow (j - 1, i) - uVelocityBoundaryWindow (1, i)) / dx;
+        uDivergence = (uVelocityWindow (i, j - 1) - uVelocityBoundaryWindow (i, 1)) / dx;
       } else {
-        uDivergence = (uVelocityWindow (j - 1, i) - uVelocityWindow (j, i)) / dx;
+        uDivergence = (uVelocityWindow (i, j - 1) - uVelocityWindow (i, j)) / dx;
       }
 
-      velocityDivergenceWindow (j, i) = uDivergence + vDivergence;
+      velocityDivergenceWindow (i, j) = uDivergence + vDivergence;
     }
   }
 

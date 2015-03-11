@@ -27,7 +27,7 @@ DataWindow<T>::DataWindow (T* _basePtr, unsigned int _columns, unsigned int _row
     __rows (_rows) {};
 
 template<class T>
-T& DataWindow<T>::operator() (unsigned int _col, unsigned int _row) {
+T& DataWindow<T>::operator() (unsigned int _row, unsigned int _col) {
   return __basePtr[_row * __cols + _col];
 }
 

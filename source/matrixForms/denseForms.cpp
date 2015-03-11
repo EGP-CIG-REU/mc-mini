@@ -44,7 +44,7 @@ namespace DenseForms {
 
     for (int i = 0; i < M; ++i) {
       for (int j = 0; j < (N - 1); ++j) {
-        double viscosity = (viscosityWindow (j + 1, i) + viscosityWindow (j + 1, i + 1)) / 2;
+        double viscosity = (viscosityWindow (i, j + 1) + viscosityWindow (i + 1, j + 1)) / 2;
 
         // First and last rows are non-standard because the laplacian would sample points which
         // do not exist in our gridding.
@@ -78,7 +78,7 @@ namespace DenseForms {
     DataWindow<const double> viscosityWindow (viscosityData, N + 1, M + 1);
     for (int i = 0; i < (M - 1); ++i) {
       for (int j = 0; j < N; ++j) {
-        double viscosity = (viscosityWindow (j, i + 1) + viscosityWindow (j + 1, i + 1)) / 2;
+        double viscosity = (viscosityWindow (i + 1, j) + viscosityWindow (i + 1, j + 1)) / 2;
 
         // The first and last elements of each row are non-standard because the four-point
         // laplacian relies upon points not included in our gridding
@@ -208,7 +208,7 @@ namespace DenseForms {
     DataWindow<const double> viscosityWindow (viscosityData, N + 1, M + 1);
     for (int i = 0; i < M; ++i) {
       for (int j = 0; j < 2; ++j) {
-        double viscosity = (viscosityWindow (j * N, i) + viscosityWindow (j * N, i + 1)) / 2;
+        double viscosity = (viscosityWindow (i, j * N) + viscosityWindow (i + 1, j * N)) / 2;
         laplacianBC (i * (N - 1) + j * (N - 2), i * 2 + j) = viscosity / (h * h);
       }
     }
@@ -226,7 +226,7 @@ namespace DenseForms {
     DataWindow<const double> viscosityWindow (viscosityData, N + 1, M + 1);
     for (int i = 0; i < 2; ++i) {
       for (int j = 0; j < N; ++j) {
-        double viscosity = (viscosityWindow (j, i * M) + viscosityWindow (j - 1, i * M)) / 2;
+        double viscosity = (viscosityWindow (i * M, j) + viscosityWindow (i * M, j - 1)) / 2;
         laplacianBC (i * (M - 2) * N + j, i * N + j) = viscosity / (h * h);
       }
     }
