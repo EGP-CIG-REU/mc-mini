@@ -22,7 +22,7 @@ void ProblemStructure::slopes() {
 	for (int i = 0; i < M; ++i) {
 	    for (int j = 0; j <  N; ++j) {
 			// If both velocities move to the right (positive), use right neighbor temperature minus left neighbor temperature.
-			if (cellCenteredUVelocityWindow (i, j) >= 0 &&
+			if (uVelocity(i, j) >= 0 &&
 				cellCenteredUVelocityWindow (i + 1, j) >= 0){
 				
 				uCenteredTemperatureSlopes (i,j) = (temperature (i+1,j) - temperature (i-1,j)) / (2.0 * h)
