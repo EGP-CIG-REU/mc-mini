@@ -43,10 +43,27 @@ class GeometryStructure {
     double * getVTemperatureBoundaryData();
   
   private:
-    /* The geometry of the Domain in terms of M, N, and h.
-       The Domain is [0,0] X [M*h, N*h].
-       The are M X N cell centers.
-    */
+
+    /* BE CAREFUL NOT TO CONFUSE THE GRID WITH AN M x N MATRIX!
+     *
+     * The geometry of the domain in terms of M, N, and h is as follows:
+     *
+     * The domain is the rectangle [0,0] X [M*h, N*h].
+     *
+     * The are M X N cells and M X N cell centers, with (M+1) X N vertical
+     * cells edges (left and right) on which lie the uVelocities, including
+     * the uVelocity boundary conditions at i = 0 and i = M+1, and M X (N+1)
+     * horizontal (top and bottom) edges on which lie the vVelocities,
+     * including the vVelocity boundary conditions at j = 0 and j = N+1.
+     *
+     * The upper right hand corner of cell i,j is the point (i * h, j * h).
+     *
+     * The lower left hand corner of cell i,j is the point ((i-1) * h, (j-1) * h).
+     *
+     * The CENTER of cell i,j is the point ((i+1/2) * h, (j+1/2) * h).
+     *
+     */
+
 	int M; // Number of cells in a row: M * h = width of the Domain
     int N; // Number of cells in a column:  N * h = height of the Domain
 
