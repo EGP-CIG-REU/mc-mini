@@ -49,7 +49,7 @@ void ProblemStructure::upwindMethod() {
       topFlux = bottomFlux = 0;
       
       // Solve the Riemann problem on the neighboring velocities and calculate
-      // the fluxes accross each edge.
+      // the fluxes across each edge.
       if (j > 0) {
         if (leftVelocity < 0) {
           leftFlux = temporaryVector (i * N + j) * leftVelocity * deltaT / h;
