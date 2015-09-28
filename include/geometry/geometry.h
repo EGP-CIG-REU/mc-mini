@@ -43,9 +43,12 @@ class GeometryStructure {
     double * getVTemperatureBoundaryData();
   
   private:
-    // Geometry sizes
-    int M; // Rows in domain (y size)
-    int N; // Columns in domain (x size)
+    /* Geometry sizes
+       the Domain is [0,0] X [M*h, N*h]
+       The are M X N cell centers
+    */
+	int M; // Number of cells in a row: M * h = width of Domain
+    int N; // Number of cells in a column:  N * h = height of Domain
 
     // Data pointers
     // Stokes solution data contains velocity and pressure solutions.
@@ -53,7 +56,7 @@ class GeometryStructure {
     // Velocity boundary data contains prescribed velocity boundary values.
     double * velocityBoundaryData;
 
-    // Forcing data contains stokes equation forcing terms.
+    // Forcing data contains Stokes equation forcing terms.
     double * forcingData;
 
     // Viscosity data
