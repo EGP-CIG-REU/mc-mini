@@ -43,12 +43,12 @@ class GeometryStructure {
     double * getVTemperatureBoundaryData();
   
   private:
-    /* Geometry sizes
-       the Domain is [0,0] X [M*h, N*h]
-       The are M X N cell centers
+    /* The geometry of the Domain in terms of M, N, and h.
+       The Domain is [0,0] X [M*h, N*h].
+       The are M X N cell centers.
     */
-	int M; // Number of cells in a row: M * h = width of Domain
-    int N; // Number of cells in a column:  N * h = height of Domain
+	int M; // Number of cells in a row: M * h = width of the Domain
+    int N; // Number of cells in a column:  N * h = height of the Domain
 
     // Data pointers
     // Stokes solution data contains velocity and pressure solutions.
